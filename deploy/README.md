@@ -6,7 +6,7 @@ the servers have some spare, unformatted SSDs or HDDs available.
 
 ## Deploying Quobyte on a Kubernetes Cluster
 
-The following steps will deploy Quobyte as a cluster-wide /var/lib/kubelet/plugins/kubernetes.io~quobyte mount on a Kubernetes (>=1.1) cluster. If you use Kubernetes (>=1.4) you can use the official Quobyte Kubernetes volume plugin.
+The following steps will deploy Quobyte as a cluster-wide /var/lib/kubelet/plugins/kubernetes.io~quobyte/mnt mount on a Kubernetes (>=1.1) cluster. If you use Kubernetes (>=1.4) you can use the official Quobyte Kubernetes volume plugin.
 
 Quobyte services use dedicated disk drives to store data.
 A typical Quobyte cluster consists of 3 registries, 3 metadata servers and at least 3 data servers.
@@ -268,7 +268,7 @@ $ kubectl -n quobyte exec -it qmgmt-pod -- qmgmt -u api volume create testVolume
 Success. Created new volume with volume uuid ba843ca0-40e2-4f05-ae41-2813d6262201
 ```
 
-Then you can mount all volumes on each node at `/var/lib/kubelet/plugins/kubernetes.io~quobyte` (default plugin directory) using the client daemonset:
+Then you can mount all volumes on each node at `/var/lib/kubelet/plugins/kubernetes.io~quobyte/mnt` (below the default plugin directory) using the client daemonset:
 
 ```bash
 $ kubectl create -f client-ds.yaml
@@ -279,7 +279,7 @@ Log into one of the hosts with ssh and check that the volume is mounted:
 
 ```bash
 $ grep "quobyte" /proc/mounts
-quobyte@10.244.4.3:7866|10.244.3.3:7866|10.244.2.4:7866/cluster on /var/lib/kubelet/plugins/kubernetes.io~quobyte type fuse (rw,nosuid,nodev,noatime,user_id=0,group_id=0,default_permissions)
+quobyte@10.244.4.3:7866|10.244.3.3:7866|10.244.2.4:7866/cluster on /var/lib/kubelet/plugins/kubernetes.io~quobyte/mnt type fuse (rw,nosuid,nodev,noatime,user_id=0,group_id=0,default_permissions)
 ```
 
 ## Deploy a Pod using the Cluster Storage
